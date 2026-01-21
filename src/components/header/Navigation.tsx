@@ -1,9 +1,11 @@
-import { ArrowRight, X, Minus, Plus } from "lucide-react";
+import { ArrowRight, X, Minus, Plus, User } from "lucide-react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import ShoppingBag from "./ShoppingBag";
+import { useAuth } from "@/contexts/AuthContext";
+import { useCart } from "@/contexts/CartContext";
 import pantheonImage from "@/assets/pantheon.jpg";
 import eclipseImage from "@/assets/eclipse.jpg";
 import haloImage from "@/assets/halo.jpg";
@@ -18,9 +20,12 @@ interface CartItem {
 }
 
 const Navigation = () => {
+  const navigate = useNavigate();
+  const { user, signOut, isAdmin } = useAuth();
+  const { itemCount } = useCart();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [offCanvasType, setOffCanvasType] = useState<'favorites' | null>(null);
+  const [offCanvasType, setOffCanvasType] = useState<'favorites' | 'account' | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShoppingBagOpen, setIsShoppingBagOpen] = useState(false);
   
@@ -52,8 +57,13 @@ const Navigation = () => {
     }
   ]);
 
-  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-  
+  const totalItems = itemCount || cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
+  const handleSignOut = async () => {
+    await signOut();
+    setOffCanvasType(null);
+    navigate('/');
+  };
   const updateQuantity = (id: number, newQuantity: number) => {
     if (newQuantity <= 0) {
       setCartItems(items => items.filter(item => item.id !== id));
@@ -206,6 +216,13 @@ const Navigation = () => {
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
             </svg>
+          </button>
+          <button 
+            className="hidden lg:block p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
+            aria-label="Account"
+            onClick={() => user ? setOffCanvasType('account') : navigate('/auth')}
+          >
+            <User size={20} />
           </button>
           <button 
             className="hidden lg:block p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
@@ -384,6 +401,68 @@ const Navigation = () => {
           setOffCanvasType('favorites');
         }}
       />
+      
+      {/* Account Off-canvas overlay */}
+      {offCanvasType === 'account' && user && (
+        <div className="fixed inset-0 z-50 h-screen">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/50 h-screen"
+            onClick={() => setOffCanvasType(null)}
+          />
+          
+          {/* Off-canvas panel */}
+          <div className="absolute right-0 top-0 h-screen w-96 bg-background border-l border-border animate-slide-in-right flex flex-col">
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b border-border">
+              <h2 className="text-lg font-light text-foreground">حسابي</h2>
+              <button
+                onClick={() => setOffCanvasType(null)}
+                className="p-2 text-foreground hover:text-muted-foreground transition-colors"
+                aria-label="Close"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            {/* Content */}
+            <div className="flex-1 p-6 space-y-4">
+              <p className="text-muted-foreground text-sm">
+                {user.email}
+              </p>
+              
+              {isAdmin && (
+                <Link 
+                  to="/admin"
+                  className="block text-primary hover:underline text-sm"
+                  onClick={() => setOffCanvasType(null)}
+                >
+                  لوحة التحكم
+                </Link>
+              )}
+              
+              <Link 
+                to="/orders"
+                className="block text-foreground hover:text-primary text-sm"
+                onClick={() => setOffCanvasType(null)}
+              >
+                طلباتي
+              </Link>
+            </div>
+            
+            {/* Footer */}
+            <div className="p-6 border-t border-border">
+              <Button 
+                variant="outline" 
+                className="w-full"
+                onClick={handleSignOut}
+              >
+                تسجيل الخروج
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
       
       {/* Favorites Off-canvas overlay */}
       {offCanvasType === 'favorites' && (
