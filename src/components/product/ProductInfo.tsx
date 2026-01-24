@@ -10,12 +10,34 @@ import {
   BreadcrumbSeparator 
 } from "@/components/ui/breadcrumb";
 import { Minus, Plus } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
+import type { Product } from "@/hooks/useProducts";
 
-const ProductInfo = () => {
+interface ProductInfoProps {
+  product: Product;
+}
+
+const ProductInfo = ({ product }: ProductInfoProps) => {
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
 
   const incrementQuantity = () => setQuantity(prev => prev + 1);
   const decrementQuantity = () => setQuantity(prev => Math.max(1, prev - 1));
+
+  const handleAddToCart = () => {
+    addToCart(product.id, quantity);
+  };
+
+  const categoryName = product.category?.name || 'منتجات';
+  const categorySlug = product.category?.slug || 'all';
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('en-EU', {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 0,
+    }).format(price);
+  };
 
   return (
     <div className="space-y-6">
@@ -31,12 +53,12 @@ const ProductInfo = () => {
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link to="/category/earrings">Earrings</Link>
+                <Link to={`/category/${categorySlug}`}>{categoryName}</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Pantheon</BreadcrumbPage>
+              <BreadcrumbPage>{product.name}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -46,37 +68,58 @@ const ProductInfo = () => {
       <div className="space-y-2">
         <div className="flex justify-between items-start">
           <div>
-            <p className="text-sm font-light text-muted-foreground mb-1">Earrings</p>
-            <h1 className="text-2xl md:text-3xl font-light text-foreground">Pantheon</h1>
+            <p className="text-sm font-light text-muted-foreground mb-1">{categoryName}</p>
+            <h1 className="text-2xl md:text-3xl font-light text-foreground">{product.name}</h1>
           </div>
           <div className="text-right">
-            <p className="text-xl font-light text-foreground">€2,850</p>
+            <p className="text-xl font-light text-foreground">{formatPrice(product.price)}</p>
+            {product.compare_at_price && (
+              <p className="text-sm font-light text-muted-foreground line-through">
+                {formatPrice(product.compare_at_price)}
+              </p>
+            )}
           </div>
         </div>
       </div>
 
       {/* Product details */}
       <div className="space-y-4 py-4 border-b border-border">
-        <div className="space-y-2">
-          <h3 className="text-sm font-light text-foreground">Material</h3>
-          <p className="text-sm font-light text-muted-foreground">18k Gold Plated Sterling Silver</p>
-        </div>
+        {product.material && (
+          <div className="space-y-2">
+            <h3 className="text-sm font-light text-foreground">Material</h3>
+            <p className="text-sm font-light text-muted-foreground">{product.material}</p>
+          </div>
+        )}
         
-        <div className="space-y-2">
-          <h3 className="text-sm font-light text-foreground">Dimensions</h3>
-          <p className="text-sm font-light text-muted-foreground">2.5cm x 1.2cm</p>
-        </div>
+        {product.dimensions && (
+          <div className="space-y-2">
+            <h3 className="text-sm font-light text-foreground">Dimensions</h3>
+            <p className="text-sm font-light text-muted-foreground">{product.dimensions}</p>
+          </div>
+        )}
         
-        <div className="space-y-2">
-          <h3 className="text-sm font-light text-foreground">Weight</h3>
-          <p className="text-sm font-light text-muted-foreground">4.2g per earring</p>
-        </div>
+        {product.weight && (
+          <div className="space-y-2">
+            <h3 className="text-sm font-light text-foreground">Weight</h3>
+            <p className="text-sm font-light text-muted-foreground">{product.weight}</p>
+          </div>
+        )}
         
-        <div className="space-y-2">
-          <h3 className="text-sm font-light text-foreground">Editor's notes</h3>
-          <p className="text-sm font-light text-muted-foreground italic">"A modern interpretation of classical architecture, these earrings bridge timeless elegance with contemporary minimalism."</p>
-        </div>
+        {product.description && (
+          <div className="space-y-2">
+            <h3 className="text-sm font-light text-foreground">Editor's notes</h3>
+            <p className="text-sm font-light text-muted-foreground italic">"{product.description}"</p>
+          </div>
+        )}
       </div>
+
+      {/* Stock status */}
+      {product.stock_quantity <= 5 && product.stock_quantity > 0 && (
+        <p className="text-sm text-amber-600">فقط {product.stock_quantity} متبقي في المخزون</p>
+      )}
+      {product.stock_quantity === 0 && (
+        <p className="text-sm text-destructive">نفذ من المخزون</p>
+      )}
 
       {/* Quantity and Add to Cart */}
       <div className="space-y-4">
@@ -107,8 +150,10 @@ const ProductInfo = () => {
 
         <Button 
           className="w-full h-12 bg-foreground text-background hover:bg-foreground/90 font-light rounded-none"
+          onClick={handleAddToCart}
+          disabled={product.stock_quantity === 0}
         >
-          Add to Bag
+          {product.stock_quantity === 0 ? 'نفذ من المخزون' : 'Add to Bag'}
         </Button>
       </div>
     </div>

@@ -1,6 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
+export interface ProductImage {
+  id: string;
+  image_url: string;
+  alt_text: string | null;
+  sort_order: number | null;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -13,8 +20,8 @@ export interface Product {
   dimensions: string | null;
   weight: string | null;
   stock_quantity: number;
-  is_active: boolean;
-  is_featured: boolean;
+  is_active: boolean | null;
+  is_featured: boolean | null;
   created_at: string;
   updated_at: string;
   category?: {
@@ -22,12 +29,7 @@ export interface Product {
     name: string;
     slug: string;
   } | null;
-  images: {
-    id: string;
-    image_url: string;
-    alt_text: string | null;
-    sort_order: number;
-  }[];
+  images: ProductImage[];
 }
 
 export interface Category {
@@ -37,13 +39,14 @@ export interface Category {
   description: string | null;
   image_url: string | null;
   parent_id: string | null;
-  sort_order: number;
+  sort_order: number | null;
 }
 
 export const useProducts = (options?: {
   categorySlug?: string;
   featured?: boolean;
   limit?: number;
+  excludeId?: string;
 }) => {
   return useQuery({
     queryKey: ['products', options],
@@ -62,8 +65,8 @@ export const useProducts = (options?: {
         query = query.eq('is_featured', true);
       }
 
-      if (options?.categorySlug) {
-        query = query.eq('category.slug', options.categorySlug);
+      if (options?.excludeId) {
+        query = query.neq('id', options.excludeId);
       }
 
       if (options?.limit) {
@@ -74,7 +77,20 @@ export const useProducts = (options?: {
 
       if (error) throw error;
 
-      return (data || []) as Product[];
+      // Filter by category slug in JS since nested filtering is tricky
+      let products = (data || []) as Product[];
+      
+      if (options?.categorySlug) {
+        products = products.filter(p => p.category?.slug === options.categorySlug);
+      }
+
+      // Sort images by sort_order
+      products = products.map(p => ({
+        ...p,
+        images: (p.images || []).sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
+      }));
+
+      return products;
     },
   });
 };
@@ -96,7 +112,11 @@ export const useProduct = (slug: string) => {
 
       if (error) throw error;
 
-      return data as Product;
+      // Sort images by sort_order
+      const product = data as Product;
+      product.images = (product.images || []).sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+
+      return product;
     },
     enabled: !!slug,
   });
@@ -115,5 +135,45 @@ export const useCategories = () => {
 
       return (data || []) as Category[];
     },
+  });
+};
+
+export const useRelatedProducts = (productId: string, categorySlug?: string) => {
+  return useQuery({
+    queryKey: ['related-products', productId, categorySlug],
+    queryFn: async () => {
+      let query = supabase
+        .from('products')
+        .select(`
+          *,
+          category:categories (id, name, slug),
+          images:product_images (id, image_url, alt_text, sort_order)
+        `)
+        .eq('is_active', true)
+        .neq('id', productId)
+        .limit(6);
+
+      const { data, error } = await query;
+
+      if (error) throw error;
+
+      let products = (data || []) as Product[];
+
+      // Sort images
+      products = products.map(p => ({
+        ...p,
+        images: (p.images || []).sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
+      }));
+
+      // Prioritize same category products
+      if (categorySlug) {
+        const sameCat = products.filter(p => p.category?.slug === categorySlug);
+        const otherCat = products.filter(p => p.category?.slug !== categorySlug);
+        products = [...sameCat, ...otherCat].slice(0, 6);
+      }
+
+      return products;
+    },
+    enabled: !!productId,
   });
 };
