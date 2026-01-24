@@ -1,25 +1,26 @@
 import { useState, useRef } from "react";
 import ImageZoom from "./ImageZoom";
+import type { ProductImage } from "@/hooks/useProducts";
+
+// Fallback images for products without uploaded images
 import pantheonImage from "@/assets/pantheon.jpg";
-import eclipseImage from "@/assets/eclipse.jpg";
-import haloImage from "@/assets/halo.jpg";
-import organicEarring from "@/assets/organic-earring.png";
-import linkBracelet from "@/assets/link-bracelet.png";
 
-const productImages = [
-  pantheonImage,
-  organicEarring,
-  eclipseImage,
-  linkBracelet,
-  haloImage,
-];
+interface ProductImageGalleryProps {
+  images: ProductImage[];
+  productName: string;
+}
 
-const ProductImageGallery = () => {
+const ProductImageGallery = ({ images, productName }: ProductImageGalleryProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isZoomOpen, setIsZoomOpen] = useState(false);
   const [zoomInitialIndex, setZoomInitialIndex] = useState(0);
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
+
+  // Use product images or fallback
+  const productImages = images.length > 0 
+    ? images.map(img => img.image_url)
+    : [pantheonImage];
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % productImages.length);
@@ -50,16 +51,18 @@ const ProductImageGallery = () => {
 
     if (Math.abs(difference) > minSwipeDistance) {
       if (difference > 0) {
-        // Swipe left - next image
         nextImage();
       } else {
-        // Swipe right - previous image
         prevImage();
       }
     }
 
     touchStartX.current = null;
     touchEndX.current = null;
+  };
+
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    e.currentTarget.src = pantheonImage;
   };
 
   return (
@@ -75,8 +78,9 @@ const ProductImageGallery = () => {
             >
               <img
                 src={image}
-                alt={`Product view ${index + 1}`}
+                alt={`${productName} view ${index + 1}`}
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                onError={handleImageError}
               />
             </div>
           ))}
@@ -95,23 +99,26 @@ const ProductImageGallery = () => {
           >
             <img
               src={productImages[currentImageIndex]}
-              alt={`Product view ${currentImageIndex + 1}`}
+              alt={`${productName} view ${currentImageIndex + 1}`}
               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 select-none"
+              onError={handleImageError}
             />
           </div>
           
           {/* Dots indicator */}
-          <div className="flex justify-center mt-4 gap-2">
-            {productImages.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentImageIndex(index)}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  index === currentImageIndex ? 'bg-foreground' : 'bg-muted'
-                }`}
-              />
-            ))}
-          </div>
+          {productImages.length > 1 && (
+            <div className="flex justify-center mt-4 gap-2">
+              {productImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentImageIndex(index)}
+                  className={`w-2 h-2 rounded-full transition-colors ${
+                    index === currentImageIndex ? 'bg-foreground' : 'bg-muted'
+                  }`}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
