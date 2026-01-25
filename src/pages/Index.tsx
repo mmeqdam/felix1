@@ -11,7 +11,7 @@ const Index = () => {
   const { data: featuredProducts = [] } = useProducts({ featured: true, limit: 8 });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" dir="rtl">
       <Header />
       
       <main className="pt-6">

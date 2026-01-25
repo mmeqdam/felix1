@@ -13,8 +13,6 @@ interface CategoryHeaderProps {
 }
 
 const CategoryHeader = ({ category }: CategoryHeaderProps) => {
-  const capitalizedCategory = category.charAt(0).toUpperCase() + category.slice(1);
-  
   return (
     <section className="w-full px-6 mb-8">
         <div className="mb-6">
@@ -22,12 +20,12 @@ const CategoryHeader = ({ category }: CategoryHeaderProps) => {
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link to="/">Home</Link>
+                  <Link to="/">الرئيسية</Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>{capitalizedCategory}</BreadcrumbPage>
+                <BreadcrumbPage>{category}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -35,7 +33,7 @@ const CategoryHeader = ({ category }: CategoryHeaderProps) => {
         
         <div>
           <h1 className="text-3xl md:text-4xl font-light text-foreground">
-            {capitalizedCategory}
+            {category}
           </h1>
         </div>
     </section>

@@ -40,14 +40,14 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" dir="rtl">
       {/* Breadcrumb - Show only on desktop */}
       <div className="hidden lg:block">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link to="/">Home</Link>
+                <Link to="/">الرئيسية</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -71,7 +71,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
             <p className="text-sm font-light text-muted-foreground mb-1">{categoryName}</p>
             <h1 className="text-2xl md:text-3xl font-light text-foreground">{product.name}</h1>
           </div>
-          <div className="text-right">
+          <div className="text-left">
             <p className="text-xl font-light text-foreground">{formatPrice(product.price)}</p>
             {product.compare_at_price && (
               <p className="text-sm font-light text-muted-foreground line-through">
@@ -86,28 +86,28 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
       <div className="space-y-4 py-4 border-b border-border">
         {product.material && (
           <div className="space-y-2">
-            <h3 className="text-sm font-light text-foreground">Material</h3>
+            <h3 className="text-sm font-light text-foreground">المادة</h3>
             <p className="text-sm font-light text-muted-foreground">{product.material}</p>
           </div>
         )}
         
         {product.dimensions && (
           <div className="space-y-2">
-            <h3 className="text-sm font-light text-foreground">Dimensions</h3>
+            <h3 className="text-sm font-light text-foreground">الأبعاد</h3>
             <p className="text-sm font-light text-muted-foreground">{product.dimensions}</p>
           </div>
         )}
         
         {product.weight && (
           <div className="space-y-2">
-            <h3 className="text-sm font-light text-foreground">Weight</h3>
+            <h3 className="text-sm font-light text-foreground">الوزن</h3>
             <p className="text-sm font-light text-muted-foreground">{product.weight}</p>
           </div>
         )}
         
         {product.description && (
           <div className="space-y-2">
-            <h3 className="text-sm font-light text-foreground">Editor's notes</h3>
+            <h3 className="text-sm font-light text-foreground">ملاحظات المحرر</h3>
             <p className="text-sm font-light text-muted-foreground italic">"{product.description}"</p>
           </div>
         )}
@@ -124,7 +124,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
       {/* Quantity and Add to Cart */}
       <div className="space-y-4">
         <div className="flex items-center gap-4">
-          <span className="text-sm font-light text-foreground">Quantity</span>
+          <span className="text-sm font-light text-foreground">الكمية</span>
           <div className="flex items-center border border-border">
             <Button
               variant="ghost"
@@ -134,7 +134,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
             >
               <Minus className="h-4 w-4" />
             </Button>
-            <span className="h-10 flex items-center px-4 text-sm font-light min-w-12 justify-center border-l border-r border-border">
+            <span className="h-10 flex items-center px-4 text-sm font-light min-w-12 justify-center border-r border-l border-border">
               {quantity}
             </span>
             <Button
@@ -153,7 +153,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
           onClick={handleAddToCart}
           disabled={product.stock_quantity === 0}
         >
-          {product.stock_quantity === 0 ? 'نفذ من المخزون' : 'Add to Bag'}
+          {product.stock_quantity === 0 ? 'نفذ من المخزون' : 'أضف إلى السلة'}
         </Button>
       </div>
     </div>
