@@ -93,57 +93,57 @@ const Navigation = () => {
   }, []);
 
   const popularSearches = [
-    "Gold Rings",
-    "Silver Necklaces", 
-    "Pearl Earrings",
-    "Designer Bracelets",
-    "Wedding Rings",
-    "Vintage Collection"
+    "خواتم ذهب",
+    "قلادات فضة", 
+    "أقراط لؤلؤ",
+    "أساور مصممة",
+    "خواتم زفاف",
+    "مجموعة كلاسيكية"
   ];
   
   const navItems = [
     { 
-      name: "Shop", 
+      name: "تسوق", 
       href: "/category/shop",
       submenuItems: [
-        "Rings",
-        "Necklaces", 
-        "Earrings",
-        "Bracelets",
-        "Watches"
+        "خواتم",
+        "قلادات", 
+        "أقراط",
+        "أساور",
+        "ساعات"
       ],
       images: [
-        { src: "/rings-collection.png", alt: "Rings Collection", label: "Rings" },
-        { src: "/earrings-collection.png", alt: "Earrings Collection", label: "Earrings" }
+        { src: "/rings-collection.png", alt: "مجموعة الخواتم", label: "خواتم" },
+        { src: "/earrings-collection.png", alt: "مجموعة الأقراط", label: "أقراط" }
       ]
     },
     { 
-      name: "New in", 
+      name: "جديد", 
       href: "/category/new-in",
       submenuItems: [
-        "This Week's Arrivals",
-        "Spring Collection",
-        "Featured Designers",
-        "Limited Edition",
-        "Pre-Orders"
+        "وصل هذا الأسبوع",
+        "مجموعة الربيع",
+        "مصممون مميزون",
+        "إصدار محدود",
+        "طلب مسبق"
       ],
       images: [
-        { src: "/arcus-bracelet.png", alt: "Arcus Bracelet", label: "Arcus Bracelet" },
-        { src: "/span-bracelet.png", alt: "Span Bracelet", label: "Span Bracelet" }
+        { src: "/arcus-bracelet.png", alt: "سوار آركوس", label: "سوار آركوس" },
+        { src: "/span-bracelet.png", alt: "سوار سبان", label: "سوار سبان" }
       ]
     },
     { 
-      name: "About", 
+      name: "عن فيليكس", 
       href: "/about/our-story",
       submenuItems: [
-        "Our Story",
-        "Sustainability",
-        "Size Guide",
-        "Customer Care",
-        "Store Locator"
+        "قصتنا",
+        "الاستدامة",
+        "دليل المقاسات",
+        "خدمة العملاء",
+        "فروعنا"
       ],
       images: [
-        { src: "/founders.png", alt: "Company Founders", label: "Read our story" }
+        { src: "/founders.png", alt: "المؤسسون", label: "اقرأ قصتنا" }
       ]
     }
   ];
@@ -151,6 +151,7 @@ const Navigation = () => {
   return (
     <nav 
       className="relative" 
+      dir="rtl"
       style={{
         backgroundColor: 'rgba(255, 255, 255, 0.9)',
         backdropFilter: 'blur(10px)'
@@ -161,7 +162,7 @@ const Navigation = () => {
         <button
           className="lg:hidden p-2 mt-0.5 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
+          aria-label="القائمة"
         >
           <div className="w-5 h-5 relative">
             <span className={`absolute block w-5 h-px bg-current transform transition-all duration-300 ${
@@ -176,8 +177,8 @@ const Navigation = () => {
           </div>
         </button>
 
-        {/* Left navigation - Hidden on tablets and mobile */}
-        <div className="hidden lg:flex space-x-8">
+        {/* Right navigation - Hidden on tablets and mobile */}
+        <div className="hidden lg:flex space-x-8 space-x-reverse">
           {navItems.map((item) => (
             <div
               key={item.name}
@@ -199,18 +200,18 @@ const Navigation = () => {
         <div className="absolute left-1/2 transform -translate-x-1/2">
           <Link to="/" className="block">
             <img 
-              src="/LINEA-1.svg" 
-              alt="LINEA" 
+              src="/felix-logo.svg" 
+              alt="فيليكس" 
               className="h-6 w-auto"
             />
           </Link>
         </div>
 
-        {/* Right icons */}
-        <div className="flex items-center space-x-2">
+        {/* Left icons */}
+        <div className="flex items-center space-x-2 space-x-reverse">
           <button 
             className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
-            aria-label="Search"
+            aria-label="بحث"
             onClick={() => setIsSearchOpen(!isSearchOpen)}
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
@@ -219,14 +220,14 @@ const Navigation = () => {
           </button>
           <button 
             className="hidden lg:block p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
-            aria-label="Account"
+            aria-label="الحساب"
             onClick={() => user ? setOffCanvasType('account') : navigate('/auth')}
           >
             <User size={20} />
           </button>
           <button 
             className="hidden lg:block p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
-            aria-label="Favorites"
+            aria-label="المفضلة"
             onClick={() => setOffCanvasType('favorites')}
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
@@ -235,7 +236,7 @@ const Navigation = () => {
           </button>
           <button 
             className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200 relative"
-            aria-label="Shopping bag"
+            aria-label="سلة التسوق"
             onClick={() => setIsShoppingBagOpen(true)}
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
@@ -326,13 +327,13 @@ const Navigation = () => {
               {/* Search input */}
               <div className="relative mb-8">
                 <div className="flex items-center border-b border-border pb-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5 text-nav-foreground mr-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5 text-nav-foreground ml-3">
                     <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                   </svg>
                   <input
                     type="text"
-                    placeholder="Search for jewelry..."
-                    className="flex-1 bg-transparent text-nav-foreground placeholder:text-nav-foreground/60 outline-none text-lg"
+                    placeholder="ابحث عن مجوهرات..."
+                    className="flex-1 bg-transparent text-nav-foreground placeholder:text-nav-foreground/60 outline-none text-lg text-right"
                     autoFocus
                   />
                 </div>
@@ -340,8 +341,8 @@ const Navigation = () => {
 
               {/* Popular searches */}
               <div>
-                <h3 className="text-nav-foreground text-sm font-light mb-4">Popular Searches</h3>
-                <div className="flex flex-wrap gap-3">
+                <h3 className="text-nav-foreground text-sm font-light mb-4 text-right">عمليات بحث شائعة</h3>
+                <div className="flex flex-wrap gap-3 justify-end">
                   {popularSearches.map((search, index) => (
                     <button
                       key={index}
@@ -474,23 +475,24 @@ const Navigation = () => {
           />
           
           {/* Off-canvas panel */}
-          <div className="absolute right-0 top-0 h-screen w-96 bg-background border-l border-border animate-slide-in-right flex flex-col">
+          <div className="absolute right-0 top-0 h-screen w-96 bg-background border-l border-border animate-slide-in-right flex flex-col" dir="rtl">
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-border">
-              <h2 className="text-lg font-light text-foreground">Your Favorites</h2>
+              <h2 className="text-lg font-light text-foreground">المفضلة</h2>
               <button
                 onClick={() => setOffCanvasType(null)}
                 className="p-2 text-foreground hover:text-muted-foreground transition-colors"
-                aria-label="Close"
+                aria-label="إغلاق"
               >
                 <X size={20} />
               </button>
             </div>
             
             {/* Content */}
-            <div className="p-6">
-              <p className="text-muted-foreground text-sm mb-6">
-                You haven't added any favorites yet. Browse our collection and click the heart icon to save items you love.
+            <div className="flex-1 flex items-center justify-center p-6">
+              <p className="text-muted-foreground text-sm text-center">
+                قائمة المفضلة فارغة.<br />
+                تصفح مجموعتنا واضغط على أيقونة القلب لحفظ القطع المفضلة.
               </p>
             </div>
           </div>

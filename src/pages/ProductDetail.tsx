@@ -33,7 +33,7 @@ const ProductDetail = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background" dir="rtl">
         <Header />
         <main className="pt-6 px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -53,7 +53,7 @@ const ProductDetail = () => {
 
   if (error || !product) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background" dir="rtl">
         <Header />
         <main className="pt-6 px-6 flex items-center justify-center min-h-[50vh]">
           <div className="text-center">
@@ -70,7 +70,7 @@ const ProductDetail = () => {
   const categorySlug = product.category?.slug || 'all';
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" dir="rtl">
       <Header />
       
       <main className="pt-6">
@@ -81,7 +81,7 @@ const ProductDetail = () => {
               <BreadcrumbList>
                 <BreadcrumbItem>
                   <BreadcrumbLink asChild>
-                    <Link to="/">Home</Link>
+                    <Link to="/">الرئيسية</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
@@ -101,7 +101,7 @@ const ProductDetail = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
             <ProductImageGallery images={product.images} productName={product.name} />
             
-            <div className="lg:pl-12 mt-8 lg:mt-0 lg:sticky lg:top-6 lg:h-fit">
+            <div className="lg:pr-12 mt-8 lg:mt-0 lg:sticky lg:top-6 lg:h-fit">
               <ProductInfo product={product} />
               <ProductDescription />
             </div>
@@ -111,7 +111,7 @@ const ProductDetail = () => {
         {relatedProducts.length > 0 && (
           <section className="w-full mt-16 lg:mt-24">
             <div className="mb-4 px-6">
-              <h2 className="text-sm font-light text-foreground">You might also like</h2>
+              <h2 className="text-sm font-light text-foreground">قد يعجبك أيضاً</h2>
             </div>
             <ProductCarousel products={relatedProducts} />
           </section>
@@ -120,7 +120,7 @@ const ProductDetail = () => {
         {categoryProducts.length > 0 && (
           <section className="w-full">
             <div className="mb-4 px-6">
-              <h2 className="text-sm font-light text-foreground">Our other {categoryName}</h2>
+              <h2 className="text-sm font-light text-foreground">منتجات أخرى من {categoryName}</h2>
             </div>
             <ProductCarousel products={categoryProducts} />
           </section>

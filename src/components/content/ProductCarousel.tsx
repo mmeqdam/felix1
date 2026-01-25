@@ -40,7 +40,7 @@ const ProductCarousel = ({ products }: ProductCarouselProps) => {
   };
 
   return (
-    <section className="w-full mb-16 px-6">
+    <section className="w-full mb-16 px-6" dir="rtl">
       <Carousel
         opts={{
           align: "start",
@@ -52,7 +52,7 @@ const ProductCarousel = ({ products }: ProductCarouselProps) => {
           {products.map((product) => (
             <CarouselItem
               key={product.id}
-              className="basis-1/2 md:basis-1/3 lg:basis-1/4 pr-2 md:pr-4"
+              className="basis-1/2 md:basis-1/3 lg:basis-1/4 pl-2 md:pl-4"
             >
               <Link to={`/product/${product.slug}`}>
                 <Card className="border-none shadow-none bg-transparent group">
@@ -66,14 +66,14 @@ const ProductCarousel = ({ products }: ProductCarouselProps) => {
                       />
                       <img
                         src={getHoverImage(product)}
-                        alt={`${product.name} alternate view`}
+                        alt={`${product.name} عرض بديل`}
                         className="absolute inset-0 w-full h-full object-cover transition-all duration-300 opacity-0 group-hover:opacity-100"
                         onError={handleImageError}
                       />
                       <div className="absolute inset-0 bg-black/[0.03]"></div>
                       {product.is_featured && (
-                        <div className="absolute top-2 left-2 px-2 py-1 text-xs font-medium text-black">
-                          NEW
+                        <div className="absolute top-2 right-2 px-2 py-1 text-xs font-medium text-black">
+                          جديد
                         </div>
                       )}
                     </div>

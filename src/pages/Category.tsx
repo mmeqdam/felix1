@@ -6,18 +6,30 @@ import CategoryHeader from "../components/category/CategoryHeader";
 import FilterSortBar from "../components/category/FilterSortBar";
 import ProductGrid from "../components/category/ProductGrid";
 
+const categoryNames: Record<string, string> = {
+  'shop': 'جميع المنتجات',
+  'rings': 'خواتم',
+  'necklaces': 'قلادات',
+  'earrings': 'أقراط',
+  'bracelets': 'أساور',
+  'watches': 'ساعات',
+  'new-in': 'وصل حديثاً',
+};
+
 const Category = () => {
   const { category } = useParams();
   const [searchParams] = useSearchParams();
   const [filtersOpen, setFiltersOpen] = useState(false);
 
+  const arabicCategory = category ? (categoryNames[category] || category) : 'جميع المنتجات';
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" dir="rtl">
       <Header />
       
       <main className="pt-6">
         <CategoryHeader 
-          category={category || 'All Products'} 
+          category={arabicCategory} 
         />
         
         <FilterSortBar 

@@ -36,14 +36,14 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
       />
       
       {/* Off-canvas panel */}
-      <div className="absolute right-0 top-0 h-screen w-96 bg-background border-l border-border animate-slide-in-right flex flex-col">
+      <div className="absolute right-0 top-0 h-screen w-96 bg-background border-l border-border animate-slide-in-right flex flex-col" dir="rtl">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-border">
-          <h2 className="text-lg font-light text-foreground">Shopping Bag</h2>
+          <h2 className="text-lg font-light text-foreground">سلة التسوق</h2>
           <button
             onClick={onClose}
             className="p-2 text-foreground hover:text-muted-foreground transition-colors"
-            aria-label="Close"
+            aria-label="إغلاق"
           >
             <X size={20} />
           </button>
@@ -61,7 +61,7 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                 </svg>
-                <span className="text-sm font-light">View Favorites</span>
+                <span className="text-sm font-light">عرض المفضلة</span>
               </button>
             </div>
           )}
@@ -69,8 +69,8 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
           {cartItems.length === 0 ? (
             <div className="flex-1 flex items-center justify-center">
               <p className="text-muted-foreground text-sm text-center">
-                Your shopping bag is empty.<br />
-                Continue shopping to add items to your bag.
+                سلة التسوق فارغة.<br />
+                تابع التسوق لإضافة منتجات إلى سلتك.
               </p>
             </div>
           ) : (
@@ -99,7 +99,7 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
                           <button 
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
                             className="p-2 hover:bg-muted/50 transition-colors"
-                            aria-label="Decrease quantity"
+                            aria-label="تقليل الكمية"
                           >
                             <Minus size={14} />
                           </button>
@@ -109,7 +109,7 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
                           <button 
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
                             className="p-2 hover:bg-muted/50 transition-colors"
-                            aria-label="Increase quantity"
+                            aria-label="زيادة الكمية"
                           >
                             <Plus size={14} />
                           </button>
@@ -123,12 +123,12 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
               {/* Subtotal and checkout */}
               <div className="border-t border-border pt-6 space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-light text-foreground">Subtotal</span>
+                  <span className="text-sm font-light text-foreground">المجموع الفرعي</span>
                   <span className="text-sm font-medium text-foreground">€{subtotal.toLocaleString('en-EU', { minimumFractionDigits: 2 })}</span>
                 </div>
                 
                 <p className="text-xs text-muted-foreground">
-                  Shipping and taxes calculated at checkout
+                  الشحن والضرائب تُحسب عند إتمام الطلب
                 </p>
                 
                 <Button 
@@ -138,7 +138,7 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
                   onClick={onClose}
                 >
                   <Link to="/checkout">
-                    Proceed to Checkout
+                    إتمام الشراء
                   </Link>
                 </Button>
                 
@@ -150,7 +150,7 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
                   asChild
                 >
                   <Link to="/category/shop">
-                    Continue Shopping
+                    متابعة التسوق
                   </Link>
                 </Button>
               </div>
