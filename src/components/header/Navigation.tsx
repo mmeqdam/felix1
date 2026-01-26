@@ -33,27 +33,27 @@ const Navigation = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([
     {
       id: 1,
-      name: "Pantheon",
-      price: "€2,850",
+      name: "بانثيون",
+      price: "﷼2,850",
       image: pantheonImage,
       quantity: 1,
-      category: "Earrings"
+      category: "أقراط"
     },
     {
       id: 2,
-      name: "Eclipse",
-      price: "€3,200", 
+      name: "إكليبس",
+      price: "﷼3,200", 
       image: eclipseImage,
       quantity: 1,
-      category: "Bracelets"
+      category: "أساور"
     },
     {
       id: 3,
-      name: "Halo",
-      price: "€1,950",
+      name: "هالو",
+      price: "﷼1,950",
       image: haloImage, 
       quantity: 1,
-      category: "Earrings"
+      category: "أقراط"
     }
   ]);
 

@@ -11,36 +11,40 @@
     --foreground: 0 0% 9%;
     
     /* Status bar */
-    --status-bar: 0 0% 0%;
+    --status-bar: 349 50% 40%;
     --status-bar-foreground: 0 0% 100%;
     
     /* Navigation */
     --nav-background: 0 0% 100%;
     --nav-foreground: 0 0% 20%;
-    --nav-hover: 0 0% 5%;
+    --nav-hover: 349 50% 40%;
     
-    /* Interactive elements */
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --primary-hover: 0 0% 15%;
+    /* Interactive elements - Burgundy/Wine Red #963645 = HSL(349, 50%, 40%) */
+    --primary: 349 50% 40%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 349 50% 35%;
     
     /* Subtle elements */
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 20%;
+    --secondary: 349 20% 95%;
+    --secondary-foreground: 349 50% 30%;
     
     --muted: 0 0% 96%;
     --muted-foreground: 0 0% 45%;
     
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 9%;
+    --accent: 349 20% 95%;
+    --accent-foreground: 349 50% 40%;
     
     --border: 0 0% 90%;
     --input: 0 0% 90%;
-    --ring: 0 0% 9%;
+    --ring: 349 50% 40%;
     
     /* Cards and surfaces */
     --card: 0 0% 100%;
     --card-foreground: 0 0% 9%;
+    
+    /* Brand color */
+    --brand: 349 50% 40%;
+    --brand-foreground: 0 0% 100%;
     
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 9%;
@@ -75,32 +79,35 @@
     --background: 0 0% 9%;
     --foreground: 0 0% 98%;
     
-    --status-bar: 0 0% 0%;
+    --status-bar: 349 50% 35%;
     --status-bar-foreground: 0 0% 100%;
     
     --nav-background: 0 0% 9%;
     --nav-foreground: 0 0% 80%;
-    --nav-hover: 0 0% 95%;
+    --nav-hover: 349 50% 50%;
     
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --primary-hover: 0 0% 90%;
+    --primary: 349 50% 50%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 349 50% 45%;
     
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 80%;
+    --secondary: 349 30% 15%;
+    --secondary-foreground: 349 30% 80%;
     
     --muted: 0 0% 15%;
     --muted-foreground: 0 0% 60%;
     
-    --accent: 0 0% 15%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 349 30% 15%;
+    --accent-foreground: 349 50% 60%;
     
     --border: 0 0% 20%;
     --input: 0 0% 20%;
-    --ring: 0 0% 98%;
+    --ring: 349 50% 50%;
     
     --card: 0 0% 9%;
     --card-foreground: 0 0% 98%;
+    
+    --brand: 349 50% 50%;
+    --brand-foreground: 0 0% 100%;
     
     --popover: 0 0% 9%;
     --popover-foreground: 0 0% 98%;
