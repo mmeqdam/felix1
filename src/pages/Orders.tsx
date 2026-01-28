@@ -6,13 +6,17 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 
+const formatPrice = (price: number) => {
+  return `${price.toLocaleString('ar-SA')} ر.س`;
+};
+
 const Orders = () => {
   const { user, loading: authLoading } = useAuth();
   const { data: orders = [], isLoading } = useOrders();
 
   if (authLoading || isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" dir="rtl">
         <p>جاري التحميل...</p>
       </div>
     );
@@ -20,7 +24,7 @@ const Orders = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col" dir="rtl">
         <Header />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center">
@@ -90,21 +94,21 @@ const Orders = () => {
                       <div className="flex-1">
                         <p className="font-medium">{item.product_name}</p>
                         <p className="text-sm text-muted-foreground">
-                          الكمية: {item.quantity} × €{item.unit_price}
+                          الكمية: {item.quantity} × {formatPrice(item.unit_price)}
                         </p>
                       </div>
-                      <p className="font-medium">€{item.total_price}</p>
+                      <p className="font-medium">{formatPrice(item.total_price)}</p>
                     </div>
                   ))}
                 </div>
                 
                 <div className="border-t pt-4 flex justify-between">
                   <div className="text-sm text-muted-foreground">
-                    <p>المجموع الفرعي: €{order.subtotal}</p>
-                    <p>الشحن: €{order.shipping_cost}</p>
-                    <p>الضريبة: €{order.tax.toFixed(2)}</p>
+                    <p>المجموع الفرعي: {formatPrice(order.subtotal)}</p>
+                    <p>الشحن: {formatPrice(order.shipping_cost)}</p>
+                    <p>الضريبة: {formatPrice(order.tax)}</p>
                   </div>
-                  <p className="text-xl font-bold">€{order.total}</p>
+                  <p className="text-xl font-bold">{formatPrice(order.total)}</p>
                 </div>
               </div>
             ))}

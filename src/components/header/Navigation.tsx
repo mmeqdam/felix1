@@ -34,7 +34,7 @@ const Navigation = () => {
     {
       id: 1,
       name: "بانثيون",
-      price: "﷼2,850",
+      price: "٢,٨٥٠ ر.س",
       image: pantheonImage,
       quantity: 1,
       category: "أقراط"
@@ -42,7 +42,7 @@ const Navigation = () => {
     {
       id: 2,
       name: "إكليبس",
-      price: "﷼3,200", 
+      price: "٣,٢٠٠ ر.س", 
       image: eclipseImage,
       quantity: 1,
       category: "أساور"
@@ -50,7 +50,7 @@ const Navigation = () => {
     {
       id: 3,
       name: "هالو",
-      price: "﷼1,950",
+      price: "١,٩٥٠ ر.س",
       image: haloImage, 
       quantity: 1,
       category: "أقراط"
