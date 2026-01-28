@@ -25,7 +25,7 @@ const ProductDescription = () => {
   const [isReviewsOpen, setIsReviewsOpen] = useState(false);
 
   return (
-    <div className="space-y-0 mt-8 border-t border-border">
+    <div className="space-y-0 mt-8 border-t border-border" dir="rtl">
       {/* Description */}
       <div className="border-b border-border">
         <Button
@@ -33,7 +33,7 @@ const ProductDescription = () => {
           onClick={() => setIsDescriptionOpen(!isDescriptionOpen)}
           className="w-full h-14 px-0 justify-between hover:bg-transparent font-light rounded-none"
         >
-          <span>Description</span>
+          <span>الوصف</span>
           {isDescriptionOpen ? (
             <ChevronUp className="h-4 w-4" />
           ) : (
@@ -43,14 +43,13 @@ const ProductDescription = () => {
         {isDescriptionOpen && (
           <div className="pb-6 space-y-4">
             <p className="text-sm font-light text-muted-foreground leading-relaxed">
-              The Pantheon earrings embody architectural elegance with their clean, geometric design. 
-              Inspired by classical Roman architecture, these statement pieces feature a sophisticated 
-              interplay of curves and angles that catch and reflect light beautifully.
+              تجسد هذه القطعة الأناقة المعمارية بتصميمها الهندسي النظيف.
+              مستوحاة من العمارة الكلاسيكية، تتميز هذه القطعة المميزة بتفاعل متطور
+              بين المنحنيات والزوايا التي تلتقط الضوء وتعكسه بشكل جميل.
             </p>
             <p className="text-sm font-light text-muted-foreground leading-relaxed">
-              Each earring is meticulously crafted from premium sterling silver with an 18k gold 
-              plating, ensuring both durability and luxury. The minimalist aesthetic makes them 
-              perfect for both everyday wear and special occasions.
+              كل قطعة مصنوعة بدقة من الفضة الإسترلينية الفاخرة مع طلاء ذهب عيار ١٨،
+              مما يضمن المتانة والفخامة. الجمالية البسيطة تجعلها مثالية للارتداء اليومي والمناسبات الخاصة.
             </p>
           </div>
         )}
@@ -63,7 +62,7 @@ const ProductDescription = () => {
           onClick={() => setIsDetailsOpen(!isDetailsOpen)}
           className="w-full h-14 px-0 justify-between hover:bg-transparent font-light rounded-none"
         >
-          <span>Product Details</span>
+          <span>تفاصيل المنتج</span>
           {isDetailsOpen ? (
             <ChevronUp className="h-4 w-4" />
           ) : (
@@ -73,20 +72,20 @@ const ProductDescription = () => {
         {isDetailsOpen && (
           <div className="pb-6 space-y-3">
             <div className="flex justify-between">
-              <span className="text-sm font-light text-muted-foreground">SKU</span>
-              <span className="text-sm font-light text-foreground">LE-PTH-001</span>
+              <span className="text-sm font-light text-muted-foreground">رقم المنتج</span>
+              <span className="text-sm font-light text-foreground">FE-PTH-001</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm font-light text-muted-foreground">Collection</span>
-              <span className="text-sm font-light text-foreground">Architectural Series</span>
+              <span className="text-sm font-light text-muted-foreground">المجموعة</span>
+              <span className="text-sm font-light text-foreground">السلسلة المعمارية</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm font-light text-muted-foreground">Closure</span>
-              <span className="text-sm font-light text-foreground">Post and butterfly back</span>
+              <span className="text-sm font-light text-muted-foreground">نوع القفل</span>
+              <span className="text-sm font-light text-foreground">عمود مع ظهر فراشة</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm font-light text-muted-foreground">Hypoallergenic</span>
-              <span className="text-sm font-light text-foreground">Yes</span>
+              <span className="text-sm font-light text-muted-foreground">مضاد للحساسية</span>
+              <span className="text-sm font-light text-foreground">نعم</span>
             </div>
           </div>
         )}
@@ -99,7 +98,7 @@ const ProductDescription = () => {
           onClick={() => setIsCareOpen(!isCareOpen)}
           className="w-full h-14 px-0 justify-between hover:bg-transparent font-light rounded-none"
         >
-          <span>Care & Cleaning</span>
+          <span>العناية والتنظيف</span>
           {isCareOpen ? (
             <ChevronUp className="h-4 w-4" />
           ) : (
@@ -109,13 +108,13 @@ const ProductDescription = () => {
         {isCareOpen && (
           <div className="pb-6 space-y-4">
             <ul className="space-y-2">
-              <li className="text-sm font-light text-muted-foreground">• Clean with a soft, dry cloth after each wear</li>
-              <li className="text-sm font-light text-muted-foreground">• Avoid contact with perfumes, lotions, and cleaning products</li>
-              <li className="text-sm font-light text-muted-foreground">• Store in the provided jewelry pouch when not wearing</li>
-              <li className="text-sm font-light text-muted-foreground">• Remove before swimming, exercising, or showering</li>
+              <li className="text-sm font-light text-muted-foreground">• نظف بقطعة قماش ناعمة وجافة بعد كل ارتداء</li>
+              <li className="text-sm font-light text-muted-foreground">• تجنب ملامسة العطور والمستحضرات ومنتجات التنظيف</li>
+              <li className="text-sm font-light text-muted-foreground">• احفظ في الحقيبة المرفقة عند عدم الارتداء</li>
+              <li className="text-sm font-light text-muted-foreground">• اخلع قبل السباحة أو ممارسة الرياضة أو الاستحمام</li>
             </ul>
             <p className="text-sm font-light text-muted-foreground">
-              For professional cleaning, visit your local jeweler or contact our customer service team.
+              للتنظيف الاحترافي، قم بزيارة صائغ محلي أو تواصل مع فريق خدمة العملاء لدينا.
             </p>
           </div>
         )}
@@ -129,7 +128,7 @@ const ProductDescription = () => {
           className="w-full h-14 px-0 justify-between hover:bg-transparent font-light rounded-none"
         >
           <div className="flex items-center gap-3">
-            <span>Customer Reviews</span>
+            <span>تقييمات العملاء</span>
             <div className="flex items-center">
               {[1, 2, 3, 4, 5].map((star) => (
                 <CustomStar
@@ -137,7 +136,7 @@ const ProductDescription = () => {
                   filled={star <= 4.8}
                 />
               ))}
-              <span className="text-sm font-light text-muted-foreground ml-1">4.8</span>
+              <span className="text-sm font-light text-muted-foreground mr-1">٤.٨</span>
             </div>
           </div>
           {isReviewsOpen ? (
@@ -163,11 +162,11 @@ const ProductDescription = () => {
                       />
                     ))}
                   </div>
-                  <span className="text-sm font-light text-muted-foreground">Sarah M.</span>
+                  <span className="text-sm font-light text-muted-foreground">سارة م.</span>
                 </div>
                 <p className="text-sm font-light text-muted-foreground leading-relaxed">
-                  "Absolutely stunning earrings! The quality is exceptional and they go with everything. 
-                  The architectural design is so unique and I get compliments every time I wear them."
+                  "أقراط رائعة جداً! الجودة استثنائية وتناسب كل شيء.
+                  التصميم المعماري فريد جداً وأحصل على الإطراء في كل مرة أرتديها."
                 </p>
               </div>
 
@@ -181,11 +180,11 @@ const ProductDescription = () => {
                       />
                     ))}
                   </div>
-                  <span className="text-sm font-light text-muted-foreground">Emma T.</span>
+                  <span className="text-sm font-light text-muted-foreground">نورة ت.</span>
                 </div>
                 <p className="text-sm font-light text-muted-foreground leading-relaxed">
-                  "Beautiful craftsmanship and comfortable to wear all day. The gold plating has held up 
-                  perfectly after months of regular wear. Highly recommend!"
+                  "حرفية جميلة ومريحة للارتداء طوال اليوم. طلاء الذهب صمد بشكل مثالي
+                  بعد أشهر من الارتداء المنتظم. أوصي بها بشدة!"
                 </p>
               </div>
 
@@ -199,11 +198,11 @@ const ProductDescription = () => {
                       />
                     ))}
                   </div>
-                  <span className="text-sm font-light text-muted-foreground">Jessica R.</span>
+                  <span className="text-sm font-light text-muted-foreground">ريم ر.</span>
                 </div>
                 <p className="text-sm font-light text-muted-foreground leading-relaxed">
-                  "These earrings are a work of art. The minimalist design is elegant and sophisticated. 
-                  Perfect weight and the packaging was beautiful too."
+                  "هذه الأقراط عمل فني. التصميم البسيط أنيق ومتطور.
+                  الوزن مثالي والتغليف كان جميلاً أيضاً."
                 </p>
               </div>
             </div>

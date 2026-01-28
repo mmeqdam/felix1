@@ -14,11 +14,7 @@ interface ProductCarouselProps {
 
 const ProductCarousel = ({ products }: ProductCarouselProps) => {
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-EU', {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 0,
-    }).format(price);
+    return `${price.toLocaleString('ar-SA')} ر.س`;
   };
 
   const getProductImage = (product: Product) => {

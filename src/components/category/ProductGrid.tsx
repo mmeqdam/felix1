@@ -13,11 +13,7 @@ const ProductGrid = ({ categorySlug }: ProductGridProps) => {
   const { data: products = [], isLoading } = useProducts({ categorySlug });
 
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-EU', {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 0,
-    }).format(price);
+    return `${price.toLocaleString('ar-SA')} ر.س`;
   };
 
   const getProductImage = (product: Product) => {
@@ -80,14 +76,14 @@ const ProductGrid = ({ categorySlug }: ProductGridProps) => {
                   />
                   <img
                     src={getHoverImage(product)}
-                    alt={`${product.name} alternate view`}
+                    alt={`${product.name} عرض بديل`}
                     className="absolute inset-0 w-full h-full object-cover transition-all duration-300 opacity-0 group-hover:opacity-100"
                     onError={handleImageError}
                   />
                   <div className="absolute inset-0 bg-black/[0.03]"></div>
                   {product.is_featured && (
-                    <div className="absolute top-2 left-2 px-2 py-1 text-xs font-medium text-black">
-                      NEW
+                    <div className="absolute top-2 right-2 px-2 py-1 text-xs font-medium text-black">
+                      جديد
                     </div>
                   )}
                 </div>
