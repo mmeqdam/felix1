@@ -1,79 +1,27 @@
-import { ArrowRight, X, Minus, Plus, User } from "lucide-react";
+import { ArrowRight, X, User } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import ShoppingBag from "./ShoppingBag";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCart } from "@/contexts/CartContext";
-import pantheonImage from "@/assets/pantheon.jpg";
-import eclipseImage from "@/assets/eclipse.jpg";
-import haloImage from "@/assets/halo.jpg";
-
-interface CartItem {
-  id: number;
-  name: string;
-  price: string;
-  image: string;
-  quantity: number;
-  category: string;
-}
+import { useCategories } from "@/hooks/useProducts";
+import { Button } from "@/components/ui/button";
 
 const Navigation = () => {
   const navigate = useNavigate();
   const { user, signOut, isAdmin } = useAuth();
   const { itemCount } = useCart();
+  const { data: categories = [] } = useCategories();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [offCanvasType, setOffCanvasType] = useState<'favorites' | 'account' | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShoppingBagOpen, setIsShoppingBagOpen] = useState(false);
-  
-  // Shopping bag state with 3 mock items
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      id: 1,
-      name: "بانثيون",
-      price: "٢,٨٥٠ ر.س",
-      image: pantheonImage,
-      quantity: 1,
-      category: "أقراط"
-    },
-    {
-      id: 2,
-      name: "إكليبس",
-      price: "٣,٢٠٠ ر.س", 
-      image: eclipseImage,
-      quantity: 1,
-      category: "أساور"
-    },
-    {
-      id: 3,
-      name: "هالو",
-      price: "١,٩٥٠ ر.س",
-      image: haloImage, 
-      quantity: 1,
-      category: "أقراط"
-    }
-  ]);
-
-  const totalItems = itemCount || cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleSignOut = async () => {
     await signOut();
     setOffCanvasType(null);
     navigate('/');
-  };
-  const updateQuantity = (id: number, newQuantity: number) => {
-    if (newQuantity <= 0) {
-      setCartItems(items => items.filter(item => item.id !== id));
-    } else {
-      setCartItems(items => 
-        items.map(item => 
-          item.id === id ? { ...item, quantity: newQuantity } : item
-        )
-      );
-    }
   };
   
   // Preload dropdown images for faster display
@@ -101,49 +49,41 @@ const Navigation = () => {
     "مجموعة كلاسيكية"
   ];
   
+  // Dynamic category items from database
+  const categoryItems = categories.map(cat => ({
+    name: cat.name,
+    slug: cat.slug
+  }));
+
   const navItems = [
     { 
       name: "تسوق", 
       href: "/category/shop",
-      submenuItems: [
-        "خواتم",
-        "قلادات", 
-        "أقراط",
-        "أساور",
-        "ساعات"
-      ],
+      submenuItems: categoryItems.length > 0 
+        ? categoryItems.map(c => ({ name: c.name, href: `/category/${c.slug}` }))
+        : [
+            { name: "أقراط", href: "/category/earrings" },
+            { name: "أساور", href: "/category/bracelets" },
+            { name: "خواتم", href: "/category/rings" },
+            { name: "قلادات", href: "/category/necklaces" }
+          ],
       images: [
-        { src: "/rings-collection.png", alt: "مجموعة الخواتم", label: "خواتم" },
-        { src: "/earrings-collection.png", alt: "مجموعة الأقراط", label: "أقراط" }
-      ]
-    },
-    { 
-      name: "جديد", 
-      href: "/category/new-in",
-      submenuItems: [
-        "وصل هذا الأسبوع",
-        "مجموعة الربيع",
-        "مصممون مميزون",
-        "إصدار محدود",
-        "طلب مسبق"
-      ],
-      images: [
-        { src: "/arcus-bracelet.png", alt: "سوار آركوس", label: "سوار آركوس" },
-        { src: "/span-bracelet.png", alt: "سوار سبان", label: "سوار سبان" }
+        { src: "/rings-collection.png", alt: "مجموعة الخواتم", label: "خواتم", href: "/category/rings" },
+        { src: "/earrings-collection.png", alt: "مجموعة الأقراط", label: "أقراط", href: "/category/earrings" }
       ]
     },
     { 
       name: "عن فيليكس", 
       href: "/about/our-story",
       submenuItems: [
-        "قصتنا",
-        "الاستدامة",
-        "دليل المقاسات",
-        "خدمة العملاء",
-        "فروعنا"
+        { name: "قصتنا", href: "/about/our-story" },
+        { name: "الاستدامة", href: "/about/sustainability" },
+        { name: "دليل المقاسات", href: "/about/size-guide" },
+        { name: "خدمة العملاء", href: "/about/customer-care" },
+        { name: "فروعنا", href: "/about/store-locator" }
       ],
       images: [
-        { src: "/founders.png", alt: "المؤسسون", label: "اقرأ قصتنا" }
+        { src: "/founders.png", alt: "المؤسسون", label: "اقرأ قصتنا", href: "/about/our-story" }
       ]
     }
   ];
@@ -242,9 +182,9 @@ const Navigation = () => {
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
             </svg>
-            {totalItems > 0 && (
+            {itemCount > 0 && (
               <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-[30%] text-[0.5rem] font-semibold text-black pointer-events-none">
-                {totalItems}
+                {itemCount}
               </span>
             )}
           </button>
@@ -268,10 +208,10 @@ const Navigation = () => {
                      ?.submenuItems.map((subItem, index) => (
                       <li key={index}>
                         <Link 
-                          to={activeDropdown === "About" ? `/about/${subItem.toLowerCase().replace(/\s+/g, '-')}` : `/category/${subItem.toLowerCase()}`}
+                          to={subItem.href}
                           className="text-nav-foreground hover:text-nav-hover transition-colors duration-200 text-sm font-light block py-2"
                         >
-                          {subItem}
+                          {subItem.name}
                         </Link>
                       </li>
                    ))}
@@ -282,35 +222,19 @@ const Navigation = () => {
               <div className="flex space-x-6">
                 {navItems
                   .find(item => item.name === activeDropdown)
-                  ?.images.map((image, index) => {
-                    // Determine the link destination based on dropdown and image
-                    let linkTo = "/";
-                    if (activeDropdown === "Shop") {
-                      if (image.label === "Rings") linkTo = "/category/rings";
-                      else if (image.label === "Earrings") linkTo = "/category/earrings";
-                    } else if (activeDropdown === "New in") {
-                      if (image.label === "Arcus Bracelet") linkTo = "/product/arcus-bracelet";
-                      else if (image.label === "Span Bracelet") linkTo = "/product/span-bracelet";
-                    } else if (activeDropdown === "About") {
-                      linkTo = "/about/our-story";
-                    }
-                    
-                    return (
-                      <Link key={index} to={linkTo} className="w-[400px] h-[280px] cursor-pointer group relative overflow-hidden block">
-                        <img 
-                          src={image.src}
-                          alt={image.alt}
-                          className="w-full h-full object-cover transition-opacity duration-200 group-hover:opacity-90"
-                        />
-                        {(activeDropdown === "Shop" || activeDropdown === "New in" || activeDropdown === "About") && (
-                          <div className="absolute bottom-2 left-2 text-white text-xs font-light flex items-center gap-1">
-                            <span>{image.label}</span>
-                            <ArrowRight size={12} />
-                          </div>
-                        )}
-                      </Link>
-                    );
-                  })}
+                  ?.images.map((image, index) => (
+                    <Link key={index} to={image.href} className="w-[400px] h-[280px] cursor-pointer group relative overflow-hidden block">
+                      <img 
+                        src={image.src}
+                        alt={image.alt}
+                        className="w-full h-full object-cover transition-opacity duration-200 group-hover:opacity-90"
+                      />
+                      <div className="absolute bottom-2 left-2 text-white text-xs font-light flex items-center gap-1">
+                        <span>{image.label}</span>
+                        <ArrowRight size={12} />
+                      </div>
+                    </Link>
+                  ))}
               </div>
             </div>
           </div>
@@ -363,7 +287,7 @@ const Navigation = () => {
         <div className="lg:hidden absolute top-full left-0 right-0 bg-nav border-b border-border z-50">
           <div className="px-6 py-8">
             <div className="space-y-6">
-              {navItems.map((item, index) => (
+              {navItems.map((item) => (
                 <div key={item.name}>
                   <Link
                     to={item.href}
@@ -376,11 +300,11 @@ const Navigation = () => {
                      {item.submenuItems.map((subItem, subIndex) => (
                        <Link
                          key={subIndex}
-                         to={item.name === "About" ? `/about/${subItem.toLowerCase().replace(/\s+/g, '-')}` : `/category/${subItem.toLowerCase()}`}
+                         to={subItem.href}
                          className="text-nav-foreground/70 hover:text-nav-hover text-sm font-light block py-1"
                          onClick={() => setIsMobileMenuOpen(false)}
                        >
-                         {subItem}
+                         {subItem.name}
                        </Link>
                      ))}
                    </div>
@@ -395,8 +319,6 @@ const Navigation = () => {
       <ShoppingBag 
         isOpen={isShoppingBagOpen}
         onClose={() => setIsShoppingBagOpen(false)}
-        cartItems={cartItems}
-        updateQuantity={updateQuantity}
         onViewFavorites={() => {
           setIsShoppingBagOpen(false);
           setOffCanvasType('favorites');
